@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import pe.edu.upeu.tresenraya01.Dao.ResultadoDAO;
 import pe.edu.upeu.tresenraya01.Dao.ResultadoDaoI;
 import pe.edu.upeu.tresenraya01.modelo.ResultadoTO;
+<<<<<<< HEAD
 
 public class Vista extends javax.swing.JFrame {
     //Iniciando variables
@@ -33,6 +34,37 @@ public class Vista extends javax.swing.JFrame {
         initComponents();
         ListarResultado();
 //es para la ubiación del programa
+=======
+
+
+public class Vista extends javax.swing.JFrame {
+    
+    ResultadoDaoI rDao;
+    static ResultadoTO uTO = new ResultadoTO();
+    DefaultTableModel modelo;
+    
+    boolean estado=true;//si es true se puede escribir
+    String siguientejuego="O";
+    String turno="X";
+    JLabel lbs[]=new JLabel[9];
+    int vs[][]={
+        {1,2,3},
+        {4,5,6},
+        {7,8,9},
+        {1,4,7},
+        {2,5,8},
+        {3,6,9},
+        {1,5,9},
+        {3,5,7},
+            
+    };
+    
+    public Vista() {
+        initComponents();
+        ListarResultado();
+        
+        
+>>>>>>> 7a60643f51fa04017650927c4ecaed9af51db809
         this.setLocationRelativeTo(null);
         lbs[0] = jLabel1;
         lbs[1] = jLabel2;
@@ -454,24 +486,185 @@ public class Vista extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel9MousePressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+<<<<<<< HEAD
 //Estoy llamando la base sde datos para agregar las primeras datos
         uTO.setNombrepartida("Partida ");
+=======
+        
+        uTO.setNombrepartida("Partida " );
+>>>>>>> 7a60643f51fa04017650927c4ecaed9af51db809
         uTO.setNombrejugador1(txtjugador1.getText());
         uTO.setNombrejugador2(txtjugador2.getText());
         uTO.setGanador("");
         uTO.setPunto(0);
         uTO.setEstado("Jugando");
+<<<<<<< HEAD
         rDao = new ResultadoDAO();
 
+=======
+        
+        System.out.println(uTO);
+        System.out.println(uTO.getNombrejugador1());
+        System.out.println(uTO.getNombrepartida());
+        rDao = new ResultadoDAO();
+        
+>>>>>>> 7a60643f51fa04017650927c4ecaed9af51db809
         int dx = rDao.create(uTO);
         uTO.setIdresultado(dx);
         resetForm();
         ListarResultado();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 7a60643f51fa04017650927c4ecaed9af51db809
         for (int i = 0; i < lbs.length; i++) {
             lbs[i].setText("");
             lbs[i].setBackground(Color.WHITE);
         }
+<<<<<<< HEAD
+=======
+        
+        turno=siguientejuego;
+        if(siguientejuego.equals("O")) {
+            siguientejuego="X";
+        }else {
+            siguientejuego="O";
+        }
+        
+        lbturno.setText("Turno de "+turno);
+        estado=true;
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtjugador1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtjugador1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtjugador1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        resetForm();
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        for (int i = 0; i < lbs.length; i++) {
+            lbs[i].setText("");
+            lbs[i].setBackground(Color.WHITE);
+        }
+        JOptionPane.showMessageDialog(null, "Partida Anulada");
+    }//GEN-LAST:event_jButton3ActionPerformed
+    
+    public void ListarResultado() {
+        rDao = new ResultadoDAO();
+        List<ResultadoTO> listarResultado = rDao.listarResultado();
+        jTable1.setAutoCreateRowSorter(true);
+        modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.setNumRows(0);
+        Object[] ob = new Object[7];
+        for (int i = 0; i < listarResultado.size(); i++) {
+            ob[0] = listarResultado.get(i).getNombrepartida();
+            ob[1] = listarResultado.get(i).getIdresultado();
+            ob[2] = listarResultado.get(i).getNombrejugador1();
+            ob[3] = listarResultado.get(i).getNombrejugador2();
+            ob[4] = listarResultado.get(i).getGanador();
+            ob[5] = listarResultado.get(i).getPunto();
+            ob[6] = listarResultado.get(i).getEstado();
+            modelo.addRow(ob);
+        }
+        jTable1.setModel(modelo);
+    }
+    
+    private void paintForm() {
+        if (jTable1.getSelectedRow() != -1) {
+            modelo = (DefaultTableModel) jTable1.getModel();
+            int rowx = jTable1.getSelectedRow();
+            Object valor = jTable1.getValueAt(rowx, 1);
+            rDao = new ResultadoDAO();
+            ResultadoTO d = rDao.buscarResultado(Integer.parseInt(valor.toString()));
+            txtjugador1.setText(d.getNombrejugador1());
+            txtjugador2.setText(d.getNombrejugador2());
+        } else {
+            System.out.println("No se logro vaciar");
+        }
+    }
+
+    public void resetForm() {
+        txtjugador1.setText("");
+        txtjugador2.setText("");
+        txtjugador1.requestFocus();
+
+    }
+    
+    public void presionar(int casilla){
+        if(lbs[casilla-1].getText().equals("")&&estado){           
+        lbs[casilla-1].setText(turno);  
+        cambiarturno();
+        comprobarganador();
+        }
+    }
+    
+    public void cambiarturno(){
+        if (turno.equals("X")) {
+            turno="O";
+        }else {
+            turno="X";
+        }
+        lbturno.setText("Turno de "+turno);
+    }
+    public void comprobarganador(){
+        for (int i = 0; i < vs.length; i++) {
+            if (lbs[vs[i][0]-1].getText().equals("X")&&
+                    lbs[vs[i][1]-1].getText().equals("X")&&
+                    lbs[vs[i][2]-1].getText().equals("X")) {  
+                
+                lbs[vs[i][0]-1].setBackground(Color.green);
+                lbs[vs[i][1]-1].setBackground(Color.green);
+                lbs[vs[i][2]-1].setBackground(Color.green);
+                
+                lbpuntajeX.setText(Integer.toString(Integer.parseInt(lbpuntajeX.getText())+1));
+                lbturno.setText("Gano X");
+                estado=false;
+                
+            } 
+            if (lbs[vs[i][0]-1].getText().equals("O")&&
+                    lbs[vs[i][1]-1].getText().equals("O")&&
+                    lbs[vs[i][2]-1].getText().equals("O")) {
+                
+                lbs[vs[i][0]-1].setBackground(Color.green);
+                lbs[vs[i][1]-1].setBackground(Color.green);
+                lbs[vs[i][2]-1].setBackground(Color.green);
+                
+                lbpuntajeO.setText(Integer.toString(Integer.parseInt(lbpuntajeO.getText())+1));
+                lbturno.setText("Gano O");
+                estado=false;
+                
+            }
+        }
+    }
+  
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Vista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Vista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Vista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Vista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+>>>>>>> 7a60643f51fa04017650927c4ecaed9af51db809
 
         turno = siguientejuego;
         if (siguientejuego.equals("O")) {

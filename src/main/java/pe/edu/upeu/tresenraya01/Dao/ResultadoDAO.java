@@ -66,6 +66,7 @@ public class ResultadoDAO implements ResultadoDaoI {
         System.out.println("actualizar d.getNombre_partida: " + d.getNombrepartida());
         int comit = 0;
         String sql = "UPDATE resultados SET "
+<<<<<<< HEAD
                 + "ganador=?, "
                 + "punto=?, "
                 + "estado=? "
@@ -77,6 +78,24 @@ public class ResultadoDAO implements ResultadoDaoI {
             ps.setInt(++i, d.getPunto());
             ps.setString(++i, d.getEstado());
             ps.setInt(++i, d.getIdresultado());
+=======
+                + "nombre_partida=?, "
+                + "nombre_jugador1=?, "
+                + "nombre_jugador2=?, "
+                + "ganador=?, "
+                + "punto=?, "
+                + "estado=? "
+                + "WHERE nombre_partida=?";
+        int i = 0;
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(++i, d.getNombrepartida());
+            ps.setString(++i, d.getNombrejugador1());
+            ps.setString(++i, d.getNombrejugador2());
+            ps.setString(++i, d.getGanador());
+            ps.setInt(++i, d.getPunto());
+            ps.setString(++i, d.getEstado());
+>>>>>>> 7a60643f51fa04017650927c4ecaed9af51db809
             comit = ps.executeUpdate();
         } catch (SQLException ex) {
             log.log(Level.SEVERE, "update", ex);
