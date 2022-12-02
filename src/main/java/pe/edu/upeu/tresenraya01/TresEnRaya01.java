@@ -12,7 +12,7 @@ package pe.edu.upeu.tresenraya01;
 public class TresEnRaya01 {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        new Vista().setVisible(true);
         
     }
 }
